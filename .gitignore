@@ -1,0 +1,5 @@
+*.xlsx
+ingore/
+node_modules
+vendor
+results.json
