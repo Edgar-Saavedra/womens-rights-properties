@@ -50,7 +50,7 @@ fetch('results.json',myInit)
           })
         });
       const markup = `
-        <h3>${dataRow['Site']['value']}</h3>
+        <h6>${dataRow['Site']['value']}</h6>
         <p>
           <strong>Landmark Status</strong><br/>
           ${dataRow['Landmark Status']['value'] ? dataRow['Landmark Status']['value'] : 'N/A'}<br/>
@@ -62,6 +62,18 @@ fetch('results.json',myInit)
       `;
       marker.bindPopup(markup);
       marker.addTo(mymap);
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.setAttribute('href','#');
+      // link.classList.add('list-group-link');
+      link.innerHTML = `${dataRow['Site']['value']}`;
+      link.addEventListener('click', event => {
+        marker.togglePopup();
+        event.preventDefault();
+      });
+      item.appendChild(link);
+      document.querySelector('#properties').appendChild(item);
+
       // markers.addLayer(marker)
     } else {
       console.log('no geodata', dataRow);
