@@ -34,6 +34,7 @@ fetch('results.json',myInit)
 .then(function(json) {
   // traitement du JSON
   // console.log(json);
+  
   json.forEach(dataRow => {
     if(dataRow.geodata && dataRow.geodata[0]) {
       var marker = L.marker([dataRow.geodata[0].lat, dataRow.geodata[0].lon], {
