@@ -37,12 +37,21 @@ fetch('results.json',myInit)
   
   json.forEach(dataRow => {
     if(dataRow.geodata && dataRow.geodata[0]) {
+      console.log(typeof dataRow['Landmark Status']['value']);
+      console.log(dataRow['Landmark Status']['value']);
+      let color = '#fff';
+      if(typeof dataRow['Landmark Status']['value'] !== 'string') {
+        color = '#000';
+      }
+      if(dataRow['Landmark Status']['value'] == 'none') {
+        color = '#000';
+      }
       var marker = L.marker([dataRow.geodata[0].lat, dataRow.geodata[0].lon], {
         // https://fontawesome.com/v4.7.0/icons/
           icon: L.icon.glyph({ 
             prefix: 'fa', 
             glyph: 'heart',
-            glyphColor: '#000'
+            glyphColor: color
           })
         });
       const markup = `
