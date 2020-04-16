@@ -33,6 +33,7 @@ fetch('results.json',myInit)
 })
 .then(function(json) {
   // traitement du JSON
+  // console.log(json);
   json.forEach(dataRow => {
     if(dataRow.geodata && dataRow.geodata[0]) {
       var marker = L.marker([dataRow.geodata[0].lat, dataRow.geodata[0].lon], {
@@ -48,10 +49,10 @@ fetch('results.json',myInit)
         <p>
           <strong>Landmark Status</strong><br/>
           ${dataRow['Landmark Status']['value'] ? dataRow['Landmark Status']['value'] : 'N/A'}<br/>
-          <strong>Notes</strong><br/>
-          ${dataRow['Notes']['value'] ? dataRow['Notes']['value'] : 'N/A'}<br/>
+          <strong>Importance</strong><br/>
+          ${dataRow['Importance']['value'] ? dataRow['Importance']['value'] : 'N/A'}<br/>
           <strong>Address</strong><br/>
-          ${dataRow['geodata'][0]['display_name'] ? dataRow['geodata'][0]['display_name'] : ''}
+          ${dataRow['geodata'][0]['address']['house_number'] ? dataRow['geodata'][0]['address']['house_number'] : ''} ${dataRow['geodata'][0]['address']['road'] ? dataRow['geodata'][0]['address']['road'] : ''}
         </p>
       `;
       marker.bindPopup(markup);
