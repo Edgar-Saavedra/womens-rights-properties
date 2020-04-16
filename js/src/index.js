@@ -34,9 +34,26 @@ fetch('results.json',myInit)
 .then(function(json) {
   // traitement du JSON
   // console.log(json);
-  
+  json.forEach(dataRow => {
+    const neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
+    const neighborhood_machine = neighborhood.replace(/\s+/g, '-').toLowerCase(); 
+    if(!document.querySelector(`#${neighborhood_machine}`)) {
+      const item = document.createElement("li");
+      item.setAttribute('id',neighborhood_machine);
+      const title = document.createElement('h4');
+      title.innerHTML = neighborhood;
+      title.classList.add('title');
+      item.appendChild(title);
+      const ul = document.createElement('ul');
+      ul.setAttribute('id',`${neighborhood_machine}__list`);
+      item.appendChild(ul);
+      document.querySelector('#properties').appendChild(item);
+    }
+  });
   json.forEach(dataRow => {
     if(dataRow.geodata && dataRow.geodata[0]) {
+      const neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
+      const neighborhood_machine = neighborhood.replace(/\s+/g, '-').toLowerCase(); 
       let color = '#fff';
       if(dataRow['Building Extant']['value'] !== 'Extant') {
         color = '#000';
@@ -72,7 +89,7 @@ fetch('results.json',myInit)
         event.preventDefault();
       });
       item.appendChild(link);
-      document.querySelector('#properties').appendChild(item);
+      document.querySelector(`#${neighborhood_machine}__list`).appendChild(item);
 
       // markers.addLayer(marker)
     } else {
