@@ -45,7 +45,7 @@ fetch('results.json',myInit)
         // https://fontawesome.com/v4.7.0/icons/
           icon: L.icon.glyph({ 
             prefix: 'fa', 
-            glyph: 'bullseye',
+            glyph: 'circle',
             glyphColor: color
           })
         });
