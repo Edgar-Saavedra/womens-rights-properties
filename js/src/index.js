@@ -1,5 +1,5 @@
 import * as L from 'leaflet';
-import 'leaflet.markercluster';
+// import 'leaflet.markercluster';
 import 'leaflet.icon.glyph';
 
 // https://wiki.openstreetmap.org/wiki/Tile_servers
@@ -10,7 +10,11 @@ var tiles = L.tileLayer('https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2
   latlng = L.latLng(37.75877280300828, -122.41928100585939);
 
 var mymap = L.map('map', {center: latlng, zoom: 13, layers: [tiles]});
-
+// mymap.on('popupopen', function(e) {
+//   var px = mymap.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
+//   px.y -= e.target._popup._container.clientHeight/2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+//   mymap.panTo(mymap.unproject(px),{animate: true}); // pan to new center
+// });
 // var markers = L.markerClusterGroup({
 //   maxClusterRadius: 1
 // });
@@ -33,14 +37,40 @@ fetch('results.json',myInit)
 })
 .then(function(json) {
   // traitement du JSON
-  // console.log(json);
+  console.log(json);
   json.forEach(dataRow => {
     const neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
     const neighborhood_machine = neighborhood.replace(/\s+/g, '-').toLowerCase(); 
     if(!document.querySelector(`#${neighborhood_machine}`)) {
+
+      // const cardHeader = document.createElement('div');
+      // cardHeader.innerHTML = neighborhood;
+      // cardHeader.classList.add('card-header');
+      // cardHeader.setAttribute('id', `${neighborhood_machine}__card_header`);
+      // cardHeader.setAttribute('data-toggle', 'collapse');
+      // cardHeader.setAttribute('data-target', `#${neighborhood_machine}__group`);
+      // cardHeader.setAttribute('aria-controls', `${neighborhood_machine}__group`);
+      // const card = document.createElement('div');
+      // card.classList.add('card');
+
+      // const cardBody = document.createElement('div');
+      // cardBody.classList.add('card-body');
+      // cardBody.setAttribute('id',neighborhood_machine);
+      // const collapse = document.createElement('div');
+      // collapse.classList.add('collapse');
+      // collapse.setAttribute('aria-labelledby', `${neighborhood_machine}__card_header`);
+      // collapse.setAttribute('data-parent', '#accordionExample');
+      // collapse.setAttribute('id', `${neighborhood_machine}__group`);
+      // collapse.appendChild(cardBody);
+      
+      // card.appendChild(cardHeader);
+      // card.appendChild(collapse);
+
+      // document.querySelector('#accordionExample').appendChild(card);
+
       const item = document.createElement("li");
       item.setAttribute('id',neighborhood_machine);
-      const title = document.createElement('h4');
+      const title = document.createElement('strong');
       title.innerHTML = neighborhood;
       title.classList.add('title');
       item.appendChild(title);
@@ -80,6 +110,7 @@ fetch('results.json',myInit)
       marker.bindPopup(markup);
       marker.addTo(mymap);
       const item = document.createElement("li");
+      // const item = document.createElement("div");
       const link = document.createElement("a");
       link.setAttribute('href','#');
       // link.classList.add('list-group-link');
@@ -90,6 +121,7 @@ fetch('results.json',myInit)
       });
       item.appendChild(link);
       document.querySelector(`#${neighborhood_machine}__list`).appendChild(item);
+      // document.querySelector(`#${neighborhood_machine}`).appendChild(item);
 
       // markers.addLayer(marker)
     } else {
