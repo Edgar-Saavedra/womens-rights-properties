@@ -2,6 +2,10 @@ let AWS = require('aws-sdk');
 var parseArgs = require('minimist')
 const settings = require('./settings');
 
+const AWS_CREDENTIALS = new AWS.SharedIniFileCredentials({
+  profile: 'personal'
+});
+AWS.config.credentials = AWS_CREDENTIALS;
 var cloudfront = new AWS.CloudFront();
 var params = {
   DistributionId: 'STRING_VALUE', /* required */

@@ -42,8 +42,8 @@ const domains = {
 }
 
 const invalidation = {
-  LIVE_ID: '',
-  QA_ID: '',
+  LIVE_ID: 'E17RC0IZJBNWI2',
+  QA_ID: 'E17RC0IZJBNWI2',
   CALLER_REFERENCE: Date.now(),
   ITEMS: '/*',
 }
