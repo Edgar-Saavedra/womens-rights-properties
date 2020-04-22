@@ -72,7 +72,7 @@ fetch('results.json',myInit)
       item.setAttribute('id',neighborhood_machine);
       const title = document.createElement('strong');
       title.innerHTML = neighborhood;
-      title.classList.add('title');
+      title.classList.add('neighborhood-title');
       item.appendChild(title);
       const ul = document.createElement('ul');
       ul.setAttribute('id',`${neighborhood_machine}__list`);
