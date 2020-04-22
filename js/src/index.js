@@ -84,9 +84,9 @@ fetch('results.json',myInit)
     if(dataRow.geodata && dataRow.geodata[0]) {
       const neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
       const neighborhood_machine = neighborhood.replace(/\s+/g, '-').toLowerCase(); 
-      let color = '#fff';
+      let color = '#000';
       if(dataRow['Building Extant']['value'] !== 'Extant') {
-        color = '#000';
+        color = '#fff';
       }
       var marker = L.marker([dataRow.geodata[0].lat, dataRow.geodata[0].lon], {
         // https://fontawesome.com/v4.7.0/icons/
