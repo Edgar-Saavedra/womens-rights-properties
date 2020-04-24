@@ -118,6 +118,7 @@ fetch('results.json',myInit)
       link.addEventListener('click', event => {
         marker.togglePopup();
         event.preventDefault();
+        document.querySelector('#map').scrollIntoView();
       });
       item.appendChild(link);
       const exantText = document.createElement('span');
