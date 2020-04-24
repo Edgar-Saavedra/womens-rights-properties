@@ -120,6 +120,9 @@ fetch('results.json',myInit)
         event.preventDefault();
       });
       item.appendChild(link);
+      const exantText = document.createElement('span');
+      exantText.innerHTML = `${dataRow['Building Extant']['value']? ` (${dataRow['Building Extant']['value']})` : ''}`;
+      item.appendChild(exantText);
       document.querySelector(`#${neighborhood_machine}__list`).appendChild(item);
       // document.querySelector(`#${neighborhood_machine}`).appendChild(item);
 
