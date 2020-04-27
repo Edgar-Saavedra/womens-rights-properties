@@ -98,14 +98,12 @@ fetch('results.json',myInit)
         });
       const markup = `
         <h6>${dataRow['Site']['value']}</h6>
-        <p>
-          <strong>Landmark Status</strong><br/>
-          ${dataRow['Landmark Status']['value'] ? dataRow['Landmark Status']['value'] : 'N/A'}<br/>
-          <strong>Importance</strong><br/>
-          ${dataRow['Importance']['value'] ? dataRow['Importance']['value'] : 'N/A'}<br/>
-          <strong>Address</strong><br/>
-          ${dataRow['geodata'][0]['address']['house_number'] ? dataRow['geodata'][0]['address']['house_number'] : ''} ${dataRow['geodata'][0]['address']['road'] ? dataRow['geodata'][0]['address']['road'] : ''}
-        </p>
+        <div>
+          ${dataRow['Description']['value'] ? `${dataRow['Description']['value']}<br/>` : ''}
+          ${dataRow['Address']['value'] ? `<strong>Address</strong><br/>${dataRow['Address']['value']}<br/>` : '' }
+          ${dataRow['Landmark Status']['value'] && dataRow['Landmark Status']['value'] !== 'none' ? `<strong>Landmark Status</strong><br/>${dataRow['Landmark Status']['value']}` : ''}<br/>
+          <div>${dataRow['Image']['value']? `<img src="/images/${dataRow['Image']['value']}" /> ${dataRow['Image Source']['value']? `<div class="img-src">Image Source: ${dataRow['Image Source']['value']}</div>`: ''}`:''}</div>
+        </div>
       `;
       marker.bindPopup(markup);
       marker.addTo(mymap);
