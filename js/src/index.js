@@ -19,20 +19,6 @@ var mymap = L.map('map', {center: latlng, zoom: 13, layers: [tiles]});
 //   maxClusterRadius: 1
 // });
 
-function addLoadEvent(func) {
-	var oldonload = window.onload;
-	if (typeof window.onload != 'function') {
-		window.onload = func;
-	} else {
-		window.onload = function() {
-			if (oldonload) {
-				oldonload();
-			}
-			func();
-		}
-	}
-}
-
 var myHeaders = new Headers();
 myHeaders.set('Content-Type','application/json')
 var myInit = { method: 'GET',
@@ -110,15 +96,15 @@ fetch('results.json',myInit)
             glyphColor: color
           })
         });
-        console.log('sdfdsf');
       if(dataRow['Image']['value']) {
-        const tempImage = document.createElement('div');
-        addLoadEvent(function() {
-          tempImage.setAttribute('src', );
-          tempImage.style.background = "url(`/images/${dataRow['Image']['value']}`) no-repeat -9999px -9999px";
-          console.log(document.querySelectorAll('body'));
-          document.querySelectorAll('body')[0].appendChild(tempImage);
-        })
+        (function() {
+          const tempImage = document.createElement('div');
+          tempImage.setAttribute('style',`background: url(/images/${dataRow['Image']['value']}) no-repeat -9999px -9999px`);
+
+          console.log('23423423423',tempImage);
+          console.log(document.querySelector('#map'));
+          document.querySelector('#map').appendChild(tempImage);
+        })();
       }
       const markup = `
         <h6>${dataRow['Site']['value']}</h6>
