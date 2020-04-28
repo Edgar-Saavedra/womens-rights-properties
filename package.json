@@ -17,6 +17,7 @@
     "leaflet": "^1.6.0",
     "leaflet.icon.glyph": "^0.2.1",
     "leaflet.markercluster": "^1.4.1",
+    "lightbox2": "^2.11.1",
     "mime-types": "^2.1.26"
   },
   "devDependencies": {

@@ -19,6 +19,14 @@ var mymap = L.map('map', {center: latlng, zoom: 13, layers: [tiles]});
 //   maxClusterRadius: 1
 // });
 
+function inHazeValley(name = '') {
+  const inHazeValley = [
+    "Women's Skill Center",
+    "San Francisco Women's Centers"
+  ];
+  return inHazeValley.includes(name);
+}
+
 var myHeaders = new Headers();
 myHeaders.set('Content-Type','application/json')
 var myInit = { method: 'GET',
@@ -37,9 +45,16 @@ fetch('results.json',myInit)
 })
 .then(function(json) {
   // traitement du JSON
-  console.log(json);
+  // console.log(json);
   json.forEach(dataRow => {
-    const neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
+    let neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
+    neighborhood = dataRow['geodata'][0]['address']['residential'] && !dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['residential'] : neighborhood;
+    neighborhood = neighborhood == 'Potrero Terrace' ? 'Potrero Hill' : neighborhood;
+
+    if(inHazeValley(dataRow['Site']['value'])) {
+      neighborhood = 'Hayes Valley';
+    }
+
     const neighborhood_machine = neighborhood.replace(/\s+/g, '-').toLowerCase(); 
     if(!document.querySelector(`#${neighborhood_machine}`)) {
 
@@ -82,7 +97,14 @@ fetch('results.json',myInit)
   });
   json.forEach(dataRow => {
     if(dataRow.geodata && dataRow.geodata[0]) {
-      const neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
+      let neighborhood = dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['neighbourhood'] : 'San Francisco';
+      neighborhood = dataRow['geodata'][0]['address']['residential'] && !dataRow['geodata'][0]['address']['neighbourhood'] ? dataRow['geodata'][0]['address']['residential'] : neighborhood;
+      neighborhood = neighborhood == 'Potrero Terrace' ? 'Potrero Hill' : neighborhood;
+
+      if(inHazeValley(dataRow['Site']['value'])) {
+        neighborhood = 'Hayes Valley';
+      }
+
       const neighborhood_machine = neighborhood.replace(/\s+/g, '-').toLowerCase(); 
       let color = '#000';
       if(dataRow['Building Extant']['value'] !== 'Extant') {
@@ -96,26 +118,18 @@ fetch('results.json',myInit)
             glyphColor: color
           })
         });
-      if(dataRow['Image']['value']) {
-        (function() {
-          const tempImage = document.createElement('div');
-          tempImage.setAttribute('style',`background: url(/images/${dataRow['Image']['value']}) no-repeat -9999px -9999px`);
 
-          console.log('23423423423',tempImage);
-          console.log(document.querySelector('#map'));
-          document.querySelector('#map').appendChild(tempImage);
-        })();
-      }
+      const overlayId = `image-overlay--${dataRow['Site']['value'].replace(/\s+/g, '-').replace(/[^\w\s]/gi, '').toLowerCase()}`;
       const markup = `
         <h6>${dataRow['Site']['value']}</h6>
         <div>
           ${dataRow['Description']['value'] ? `${dataRow['Description']['value']}<br/>` : ''}
           ${dataRow['Address']['value'] ? `<strong>Address</strong><br/>${dataRow['Address']['value']}<br/>` : '' }
           ${dataRow['Landmark Status']['value'] && dataRow['Landmark Status']['value'] !== 'none' ? `<strong>Landmark Status</strong><br/>${dataRow['Landmark Status']['value']}` : ''}<br/>
-          <div>${dataRow['Image']['value']? `<img src="/images/${dataRow['Image']['value']}" /> ${dataRow['Image Source']['value']? `<div class="img-src">Image Source: ${dataRow['Image Source']['value']}</div>`: ''}`:''}</div>
+          <div>${dataRow['Image']['value']? `<img data-overlay="#${overlayId}" src="/images/${dataRow['Image']['value']}" /> ${dataRow['Image Source']['value']? `<div class="img-src">Image Source: ${dataRow['Image Source']['value']}</div>`: ''}`:''}</div>
         </div>
       `;
-      marker.bindPopup(markup);
+      const popup = marker.bindPopup(markup);
       marker.addTo(mymap);
       const item = document.createElement("li");
       // const item = document.createElement("div");
@@ -124,11 +138,53 @@ fetch('results.json',myInit)
       // link.classList.add('list-group-link');
       link.innerHTML = `${dataRow['Site']['value']}`;
       link.addEventListener('click', event => {
-        marker.togglePopup();
-        event.preventDefault();
+        if(!popup.isPopupOpen()) {
+          marker.openPopup();
+        }
         document.querySelector('#map').scrollIntoView();
+        event.preventDefault();
       });
+      popup.addEventListener('popupopen', event => {
+        const imageInPopup = document.querySelectorAll(`[data-overlay="#${overlayId}"]`)[0];
+        const opentOverlayEvent = (event) => {
+          event.preventDefault();
+          document.querySelectorAll('body')[0].classList.add('overlay-open');
+          const overlay = document.querySelector(`#${overlayId}`);
+          overlay.classList.add('overlay-open');
+          overlay.addEventListener('click', event => {
+            document.querySelectorAll('body')[0].classList.remove('overlay-open');
+            overlay.classList.remove('overlay-open');
+          });
+        }
+        if(imageInPopup) {
+          imageInPopup.removeEventListener('click', opentOverlayEvent, false);
+          imageInPopup.addEventListener('click', opentOverlayEvent);
+        }
+      })
       item.appendChild(link);
+
+      if(dataRow['Image']['value']) {
+        (function() {
+          const imageOverlay = document.createElement('div');
+          imageOverlay.setAttribute('id', `${overlayId}`);
+          imageOverlay.classList.add('image-overlay');
+          const imageOverlayInner = document.createElement('div');
+          imageOverlayInner.classList.add('image-overlay__inner');
+          const image = document.createElement('img');
+          image.setAttribute('src',`/images/${dataRow['Image']['value']}`);
+
+          const closeButton = document.createElement('span');
+          closeButton.classList.add('close');
+          closeButton.classList.add('cursor');
+          closeButton.innerHTML = '&times;';
+
+          imageOverlayInner.appendChild(image);
+          imageOverlay.appendChild(closeButton);
+          imageOverlay.appendChild(imageOverlayInner);
+          // console.log(document.querySelector('#map'));
+          document.querySelectorAll('body')[0].appendChild(imageOverlay);
+        })();
+      }
       const exantText = document.createElement('span');
       exantText.innerHTML = `${dataRow['Building Extant']['value']? ` (${dataRow['Building Extant']['value']})` : ''}`;
       item.appendChild(exantText);
