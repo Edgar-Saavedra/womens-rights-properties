@@ -1,0 +1,7 @@
+src/dist/css/**
+src/scss/icons/_icons.scss
+scr/scss/icons/icons.scss
+src/scss/utilities/_icons.scss
+src/scss/utilities/icons.scss
+src/scss/utilities/_reboot.scss
+src/scss/utilities/_normalize.scss

@@ -126,7 +126,7 @@ fetch('results.json',myInit)
           ${dataRow['Description']['value'] ? `${dataRow['Description']['value']}<br/>` : ''}
           ${dataRow['Address']['value'] ? `<strong>Address</strong><br/>${dataRow['Address']['value']}<br/>` : '' }
           ${dataRow['Landmark Status']['value'] && dataRow['Landmark Status']['value'] !== 'none' ? `<strong>Landmark Status</strong><br/>${dataRow['Landmark Status']['value']}` : ''}<br/>
-          <div>${dataRow['Image']['value']? `<img data-overlay="#${overlayId}" src="/images/${dataRow['Image']['value']}" /> ${dataRow['Image Source']['value']? `<div class="img-src">Image Source: ${dataRow['Image Source']['value']}</div>`: ''}`:''}</div>
+          <div>${dataRow['Image']['value']? `<img data-overlay="#${overlayId}" src="/assets/img/${dataRow['Image']['value']}" /> ${dataRow['Image Source']['value']? `<div class="img-src">Image Source: ${dataRow['Image Source']['value']}</div>`: ''}`:''}</div>
         </div>
       `;
       const popup = marker.bindPopup(markup);
@@ -171,7 +171,7 @@ fetch('results.json',myInit)
           const imageOverlayInner = document.createElement('div');
           imageOverlayInner.classList.add('image-overlay__inner');
           const image = document.createElement('img');
-          image.setAttribute('src',`/images/${dataRow['Image']['value']}`);
+          image.setAttribute('src',`/assets/img/${dataRow['Image']['value']}`);
 
           const closeButton = document.createElement('span');
           closeButton.classList.add('close');

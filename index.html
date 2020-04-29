@@ -8,158 +8,88 @@
    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
    crossorigin=""/>
    <meta name="description" content="This map displays 32 historic sites relating to women’s history identified by Dalia Rubiano Yedidia for the San Francisco Planning department. Yedidia’s social history on women’s rights intentionally centers women of color, lesbian, bisexual, transgender, and queer women, and women involved in liberation movements.">
-<link rel="stylesheet" href="https://use.fontawesome.com/b0fbc1cb2d.css">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <style>
-  .title {
-    text-align: center;
-    padding-top: 60px;
-    padding-bottom: 30px;
-  }
-  .intro {
-    margin-bottom: 30px;
-  }
-  .sidebar__title {
-    margin-bottom: 20px;
-  }
-  .map__container {
-    margin-bottom: 30px;
-  }
-  #map { 
-    width: 100%;
-    height: 320px; 
-  }
-  .legend .legend-item {
-    margin-bottom: 20px;
-  }
-  .leaflet-popup-content img {
-    width: auto;
-    max-width: 100%;
-    max-height: 100px;
-  }
-  .image-overlay {
-    display: none;
-    position: fixed;
-    z-index: 9999999;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: black;
-  }
-
-  .image-overlay .image-overlay__inner {
-    position: relative;
-    margin: auto;
-    padding: 0;
-    width: 90%;
-    max-width: 1200px;
-    text-align: center;
-  }
-
-  .overlay-open {
-    overflow: hidden;
-  }
-  .overlay-open .image-overlay.overlay-open {
-    display: block;
-    overflow: scroll;
-  }
-  body {
-    position: relative;
-  }
-  .leaflet-popup-content img {
-    cursor: pointer;
-  }
-  .image-overlay img {
-    height: auto;
-    max-width: 100%;
-  }
-  .close {
-    color: white;
-    position: absolute;
-    top: 10px;
-    right: 25px;
-    font-size: 35px;
-    font-weight: bold;
-    text-shadow: none;
-    opacity: 1;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: #999;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  @media screen and (min-width: 768px) {
-    #map { 
-      width: 100%;
-      height: 600px; 
-    }
-  }
-  .map-title {
-    margin-bottom: 30px;
-  }
-  </style>
+  <link rel="stylesheet" href="https://use.fontawesome.com/b0fbc1cb2d.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="/dist/css/styles.css">
 </head>
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-12 title">
-        <h1>We’re the Ones Who Get It Done: <br/>Women’s Rights History in 20th Century San Francisco</h1>
+<body id="page-top">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <div id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/works-cited.html">Works Cited</a></li>
+          </ul>
       </div>
-      <div class="col-12 intro">
+    </div>
+  </nav>
+  <header class="masthead">
+    <div class="container">
+      <div class="masthead-heading"><h1>We’re the Ones Who Get It Done: <br/>Women’s Rights History in 20th Century San Francisco</h1></div>
+    </div>
+  </header>
+  <section class="page-section bg-light">
+    <div class="container">
+      <div class="intro">
         <p>This map displays 32 historic sites relating to women’s history identified by Dalia Rubiano Yedidia for the San Francisco Planning department. During the summer of 2019, Yedidia conducted archival research, oral history interviews, and walked around the city in which she was born, raised, to prepare a citywide historic context statement* titled <strong>We’re the Ones Who Get It Done: Women’s Rights History in 20th Century San Francisco</strong>.</p>
         <p>Yedidia’s social history on women’s rights intentionally centers women of color, lesbian, bisexual, transgender, and queer women, and women involved in liberation movements. Because of white supremacy and patriarchy, “women’s rights” is often relegated solely to the history of suffrage for white women. To counter this reductionist practice, the report and sites below represent places from movements where women organized to transform their lives and communities through civic engagement, the labor movement, supporting recently arrived young women, leading self-determination struggles, the Women’s Movement, establishing arts and cultural legacy institutions, and fighting on the frontline of the AIDS epidemic.</p>
         <p><small>*A historic context statement is typically a big report that planning departments use to identify potential “historic resources,” i.e. landmarks, and other parts of the built environment that should be preserved and protected because of their historic significance.</small></p>
         </p>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="map-title">
-          <h2 class>Women's Rights Historic Sites of 20th C. San Francisco</h2>
-          <p>As you click around on the map below, think about how you interact with your own neighborhood and its history – past, present, living, dying, unknown and waiting to be learned. Consider how the power of place and the process of remembering offers opportunities to heal and seek justice. How can a city, and the communities of which it is comprised, reclaim and integrate social histories into our daily lives? Share your thoughts and commentary with <a href="mailto:info@daliayedidia.com">info@daliayedidia.com</a>.</p>
-        </div>
-      </div>
-      <div class="col-md-8 map__container">
-        <div id="map"></div>
-        <small>By Dalia Rubiano Yedidia</small><br/>
-        <small>Prepared for SF Planning</small><br/>
-        <small>Engineering by Edgar Saavedra Vallejo</small><br/>
-        <small><a href="/works-cited.html">Works Cited</a></small><br/>
-        <small>Spring 2020</small>
-      </div>
-      <!-- d-none d-md-block -->
-      <div class="col-md-4 ">
-        <h3 class="sidebar__title">Properties</h3>
-        <div class="legend">
-          <div class="row legend-item">
-            <div class="col-2">
-              <img src="/images/black.png"  width="30px" height="auto" alt="black">
+  </section>
+  <section class="page-section">
+    <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="">
+              <h2 class="section-heading text-uppercase">Women's Rights Historic Sites of 20th C. San Francisco</h2>
             </div>
-            <div class="col-10">black = Extant (exists)</div>
-          </div>
-          <div class="row legend-item">
-            <div class="col-2">
-              <img src="/images/white.png" width="30px" height="auto" alt="black">
-            </div>
-            <div class="col-10">white = Non-extant (no longer exists)</div>
+            <p class="section-subheading large">As you click around on the map below, think about how you interact with your own neighborhood and its history – past, present, living, dying, unknown and waiting to be learned. Consider how the power of place and the process of remembering offers opportunities to heal and seek justice. How can a city, and the communities of which it is comprised, reclaim and integrate social histories into our daily lives? Share your thoughts and commentary with <a href="mailto:info@daliayedidia.com">info@daliayedidia.com</a>.</p>
           </div>
         </div>
-        <ul id="properties" class="list-unstyled">
-        </ul>
+        <div class="row map__container_wrapper">
+          <div class="col-md-8 map__container">
+            <div id="map"></div>
+              <p><small>By Dalia Rubiano Yedidia<br/>
+              Prepared for SF Planning<br/>
+              Engineering by Edgar Saavedra Vallejo<br/>
+              <a href="/works-cited.html">Works Cited</a><br/>
+              Spring 2020</small></p>
+          </div>
+          <!-- d-none d-md-block -->
+          <div class="col-md-4 ">
+            <h3 class="sidebar__title">Properties</h3>
+            <div class="legend">
+              <div class="row legend-item">
+                <div class="col-2">
+                  <img src="/assets/img/black.png"  width="30px" height="auto" alt="black">
+                </div>
+                <div class="col-10">black = Extant (exists)</div>
+              </div>
+              <div class="row legend-item">
+                <div class="col-2">
+                  <img src="/assets/img/white.png" width="30px" height="auto" alt="black">
+                </div>
+                <div class="col-10">white = Non-extant (no longer exists)</div>
+              </div>
+            </div>
+            <ul id="properties" class="list-unstyled">
+            </ul>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  
+  <footer class="footer py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 text-lg-left">
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+        </div>
       </div>
     </div>
-    <footer class="row">
-      <div class="col-12">
-        <small><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</small>
-      </div>
-    </footer>
-  </div>
+  </footer>
   <script src="/dist/womens-rights-properties.js"></script>
 </body>
 </html>
