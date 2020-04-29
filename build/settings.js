@@ -31,7 +31,18 @@ const ignore = [
   'js',
   'WomensRightsProperties.xlsx',
   'index.php',
-  '~$WomensRightsProperties.xlsx'
+  '~$WomensRightsProperties.xlsx',
+  'package-lock.json',
+  'yarn-error.log',
+  'src',
+  'composer.lock',
+  'composer.json',
+  'package.json',
+  'webpack.config.js',
+  'babelrc',
+  '.stylelintignore',
+  '.stylelintcache',
+  'yarn.lock'
 ]
 
 const domains = {
