@@ -162,3 +162,12 @@ a.nav-link {
     border-bottom: none;
   }
 }
+
+img[data-overlay] {
+  padding-bottom: 2px;
+  border-bottom: dotted 1px #dd3d31;
+
+  &:hover {
+    border-bottom: dotted 1px #000;
+  }
+}
