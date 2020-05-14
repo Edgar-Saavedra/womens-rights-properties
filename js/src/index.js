@@ -2,6 +2,38 @@ import * as L from 'leaflet';
 // import 'leaflet.markercluster';
 import 'leaflet.icon.glyph';
 
+function createFunctionWithTimeout(callback, opt_timeout) {
+  var called = false;
+  function fn() {
+    if (!called) {
+      called = true;
+      callback();
+    }
+  }
+  setTimeout(fn, opt_timeout || 1000);
+  return fn;
+}
+
+function triggerGAEvent(eventCategory, eventAction, eventLabel, callback) {
+  if ( 'ga' in window && window.ga !== undefined && typeof window.ga === 'function' ) {
+    var gaEvent = {
+      hitType: 'event',
+      eventCategory: eventCategory,
+      eventAction: eventAction,
+      eventLabel: eventLabel,
+      hitCallback: createFunctionWithTimeout(callback)
+    };
+    if(typeof navigator !== 'undefined') {
+      if(typeof navigator.sendBeacon !== 'undefined') {
+        ga('set', 'transport', 'beacon');
+      }
+    }
+    ga('send', gaEvent);
+    return true;
+  }
+  return false;
+}
+
 // https://wiki.openstreetmap.org/wiki/Tile_servers
 var tiles = L.tileLayer('https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}@2x.png?key=2YXRM0uTljQEY5Z3BxD8', {
     maxZoom: 18,
@@ -137,30 +169,52 @@ fetch('results.json',myInit)
       link.setAttribute('href','#');
       // link.classList.add('list-group-link');
       link.innerHTML = `${dataRow['Site']['value']}`;
+      link.womensRightsProperties = {
+        site: dataRow['Site']['value'] ? dataRow['Site']['value'] : null
+      };
       link.addEventListener('click', event => {
+        const siteName =  event.target.womensRightsProperties.site ? event.target.womensRightsProperties.site : 'no-site-name';
+        if(!triggerGAEvent('open-popup--link', 'popupopen', siteName , function() {
+          console.log(siteName,'open-popup--link hitCallback completed');
+        }));
         if(!popup.isPopupOpen()) {
           marker.openPopup();
         }
         document.querySelector('#map').scrollIntoView();
         event.preventDefault();
       });
+      popup.womensRightsProperties = {
+        site: dataRow['Site']['value'] ? dataRow['Site']['value'] : null
+      };
       popup.addEventListener('popupopen', event => {
+        const siteName =  event.target.womensRightsProperties.site ? event.target.womensRightsProperties.site : 'no-site-name';
         const imageInPopup = document.querySelectorAll(`[data-overlay="#${overlayId}"]`)[0];
+        if(!triggerGAEvent('open-popup', 'popupopen', siteName , function() {
+          console.log(siteName,'open-popup hitCallback completed');
+        }));
         const opentOverlayEvent = (event) => {
+          console.log('opentOverlayEvent', event);
+          console.log('opentOverlayEvent', this);
           event.preventDefault();
           document.querySelectorAll('body')[0].classList.add('overlay-open');
           const overlay = document.querySelector(`#${overlayId}`);
           overlay.classList.add('overlay-open');
+          if(!triggerGAEvent('overlay-opened', 'popupopen', siteName , function() {
+            console.log(siteName,'overlay-opened hitCallback completed');
+          }));
           overlay.addEventListener('click', event => {
             document.querySelectorAll('body')[0].classList.remove('overlay-open');
             overlay.classList.remove('overlay-open');
+            if(!triggerGAEvent('overlay-closed', 'popupopen', siteName , function() {
+              console.log(siteName,'overlay-closed hitCallback completed');
+            }));
           });
         }
         if(imageInPopup) {
           imageInPopup.removeEventListener('click', opentOverlayEvent, false);
           imageInPopup.addEventListener('click', opentOverlayEvent);
         }
-      })
+      }, false)
       item.appendChild(link);
 
       if(dataRow['Image']['value']) {
