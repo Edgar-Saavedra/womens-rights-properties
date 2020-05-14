@@ -42,7 +42,8 @@ const ignore = [
   'babelrc',
   '.stylelintignore',
   '.stylelintcache',
-  'yarn.lock'
+  'yarn.lock',
+  'img'
 ]
 
 const domains = {
