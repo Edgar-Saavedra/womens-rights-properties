@@ -26,6 +26,12 @@
     "mime-types": "^2.1.26",
     "startbootstrap-agency": "^6.0.0"
   },
+  "overrides": {
+    "minimatch": ">=3.0.5"
+  },
+  "resolutions": {
+    "minimatch": ">=3.0.5"
+  },
   "devDependencies": {
     "@babel/cli": "7.4.4",
     "@babel/core": "7.4.4",
